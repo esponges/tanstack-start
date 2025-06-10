@@ -15,6 +15,7 @@ import { Route as UsersRouteImport } from './routes/users'
 import { Route as RedirectRouteImport } from './routes/redirect'
 import { Route as PostsRouteImport } from './routes/posts'
 import { Route as DeferredRouteImport } from './routes/deferred'
+import { Route as DataTableRouteImport } from './routes/data-table'
 import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users.index'
@@ -49,6 +50,11 @@ const PostsRoute = PostsRouteImport.update({
 const DeferredRoute = DeferredRouteImport.update({
   id: '/deferred',
   path: '/deferred',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataTableRoute = DataTableRouteImport.update({
+  id: '/data-table',
+  path: '/data-table',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PathlessLayoutRoute = PathlessLayoutRouteImport.update({
@@ -121,6 +127,7 @@ const ApiUsersUserIdServerRoute = ApiUsersUserIdServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
+  '/data-table': typeof DataTableRoute
   '/deferred': typeof DeferredRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
+  '/data-table': typeof DataTableRoute
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/posts/$postId': typeof PostsPostIdRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
+  '/data-table': typeof DataTableRoute
   '/deferred': typeof DeferredRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/data-table'
     | '/deferred'
     | '/posts'
     | '/redirect'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/data-table'
     | '/deferred'
     | '/redirect'
     | '/posts/$postId'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_pathlessLayout'
+    | '/data-table'
     | '/deferred'
     | '/posts'
     | '/redirect'
@@ -213,6 +225,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
+  DataTableRoute: typeof DataTableRoute
   DeferredRoute: typeof DeferredRoute
   PostsRoute: typeof PostsRouteWithChildren
   RedirectRoute: typeof RedirectRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/customScript.js'
       preLoaderRoute: unknown
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-table': {
+      id: '/data-table'
+      path: '/data-table'
+      fullPath: '/data-table'
+      preLoaderRoute: typeof DataTableRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/deferred': {
@@ -392,6 +412,13 @@ declare module '@tanstack/react-start/server' {
       path: '/customScript.js'
       fullPath: '/customScript.js'
       preLoaderRoute: typeof CustomScriptDotjsServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/data-table': {
+      id: '/data-table'
+      path: '/data-table'
+      fullPath: '/data-table'
+      preLoaderRoute: unknown
       parentRoute: typeof rootServerRouteImport
     }
     '/deferred': {
@@ -564,6 +591,7 @@ const ApiUsersServerRouteWithChildren = ApiUsersServerRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
+  DataTableRoute: DataTableRoute,
   DeferredRoute: DeferredRoute,
   PostsRoute: PostsRouteWithChildren,
   RedirectRoute: RedirectRoute,

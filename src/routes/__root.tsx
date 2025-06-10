@@ -103,6 +103,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             Posts
           </Link>{' '}
           <Link
+            to="/data-table"
+            activeProps={{
+              className: 'font-bold',
+            }}
+          >
+            Search Params Table
+          </Link>{' '}
+          <Link
             to="/users"
             activeProps={{
               className: 'font-bold',
